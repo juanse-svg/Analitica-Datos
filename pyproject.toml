@@ -5,6 +5,7 @@ description = "Proyecto del semestre - Analitica de Datos"
 requires-python = ">=3.12"
 dependencies = [
     "pandas>=2.2",
+    "pandera>=0.20",
 ]
 
 [dependency-groups]
