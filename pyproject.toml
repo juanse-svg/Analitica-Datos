@@ -23,3 +23,8 @@ packages = ["src/analytics"]
 
 [tool.ruff]
 line-length = 100
+
+[tool.ruff.lint.per-file-ignores]
+# Los tests de los labs se copian tal cual del enunciado (no se modifican).
+# Comparan explícitamente contra True/False por claridad pedagógica del lab.
+"tests/*" = ["E712"]
