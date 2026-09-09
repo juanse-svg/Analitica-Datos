@@ -4,8 +4,10 @@ version = "0.1.0"
 description = "Proyecto del semestre - Analitica de Datos"
 requires-python = ">=3.12"
 dependencies = [
+    "joblib>=1.6.0",
     "pandas>=2.2",
     "pandera>=0.20",
+    "scikit-learn>=1.9.0",
 ]
 
 [dependency-groups]
