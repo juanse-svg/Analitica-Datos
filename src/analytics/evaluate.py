@@ -10,6 +10,7 @@ from sklearn.metrics import (
     roc_auc_score,
 )
 
+
 def evaluar_regresion(y_true, y_pred) -> dict:
     """Calcula las métricas estándar de un modelo de regresión.
 
@@ -21,9 +22,9 @@ def evaluar_regresion(y_true, y_pred) -> dict:
         Dict con claves 'rmse', 'mae', 'r2' (floats).
     """
     return {
-        'rmse': float(np.sqrt(mean_squared_error(y_true, y_pred))),
-        'mae': float(mean_absolute_error(y_true, y_pred)),
-        'r2': float(r2_score(y_true, y_pred))
+        "rmse": float(np.sqrt(mean_squared_error(y_true, y_pred))),
+        "mae": float(mean_absolute_error(y_true, y_pred)),
+        "r2": float(r2_score(y_true, y_pred)),
     }
 
 
@@ -40,10 +41,10 @@ def evaluar_clasificacion(y_true, y_pred, y_proba) -> dict:
         'matriz_confusion' (lista de listas 2x2: [[tn, fp], [fn, tp]]).
     """
     return {
-        'accuracy': float(accuracy_score(y_true, y_pred)),
-        'f1': float(f1_score(y_true, y_pred)),
-        'roc_auc': float(roc_auc_score(y_true, y_proba)),
-        'matriz_confusion': confusion_matrix(y_true, y_pred).tolist()
+        "accuracy": float(accuracy_score(y_true, y_pred)),
+        "f1": float(f1_score(y_true, y_pred)),
+        "roc_auc": float(roc_auc_score(y_true, y_proba)),
+        "matriz_confusion": confusion_matrix(y_true, y_pred).tolist(),
     }
 
 
