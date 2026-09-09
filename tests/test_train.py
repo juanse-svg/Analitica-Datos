@@ -15,14 +15,17 @@ from analytics.train import (
 
 # ── fixtures ──────────────────────────────────────────────────────────
 
+
 @pytest.fixture
 def datos_regresion():
     rng = np.random.default_rng(42)
-    X = pd.DataFrame({
-        "n_items": rng.integers(1, 5, size=50).astype(float),
-        "precio_total": rng.uniform(10, 500, size=50),
-        "ticket_promedio_historico": rng.uniform(10, 500, size=50),
-    })
+    X = pd.DataFrame(
+        {
+            "n_items": rng.integers(1, 5, size=50).astype(float),
+            "precio_total": rng.uniform(10, 500, size=50),
+            "ticket_promedio_historico": rng.uniform(10, 500, size=50),
+        }
+    )
     X.loc[::10, "ticket_promedio_historico"] = np.nan  # nulos deliberados
     y = pd.Series(rng.uniform(1, 30, size=50))
     return X, y
@@ -31,17 +34,20 @@ def datos_regresion():
 @pytest.fixture
 def datos_clasificacion():
     rng = np.random.default_rng(42)
-    X = pd.DataFrame({
-        "n_items": rng.integers(1, 5, size=50).astype(float),
-        "precio_total": rng.uniform(10, 500, size=50),
-        "tiempo_entrega_dias": rng.uniform(1, 30, size=50),
-    })
+    X = pd.DataFrame(
+        {
+            "n_items": rng.integers(1, 5, size=50).astype(float),
+            "precio_total": rng.uniform(10, 500, size=50),
+            "tiempo_entrega_dias": rng.uniform(1, 30, size=50),
+        }
+    )
     # Clases desbalanceadas: 85% False, 15% True — como review_negativa real
     y = pd.Series(rng.random(size=50) < 0.15)
     return X, y
 
 
 # ── tests entrenar_pipeline_regresion ───────────────────────────────
+
 
 def test_entrenar_pipeline_regresion_retorna_pipeline(datos_regresion):
     X, y = datos_regresion
@@ -66,6 +72,7 @@ def test_pipeline_regresion_maneja_nulos_sin_fallar(datos_regresion):
 
 # ── tests entrenar_pipeline_clasificacion ───────────────────────────
 
+
 def test_entrenar_pipeline_clasificacion_retorna_pipeline(datos_clasificacion):
     X, y = datos_clasificacion
     pipeline = entrenar_pipeline_clasificacion(X, y, n_estimators=10)
@@ -87,6 +94,7 @@ def test_pipeline_clasificacion_usa_class_weight_balanced(datos_clasificacion):
 
 # ── tests guardar_pipeline / cargar_pipeline ────────────────────────
 
+
 def test_guardar_y_cargar_pipeline_roundtrip(datos_regresion, tmp_path):
     X, y = datos_regresion
     pipeline_original = entrenar_pipeline_regresion(X, y, n_estimators=10)
@@ -96,6 +104,4 @@ def test_guardar_y_cargar_pipeline_roundtrip(datos_regresion, tmp_path):
     assert ruta.exists()
 
     pipeline_cargado = cargar_pipeline(str(ruta))
-    np.testing.assert_array_almost_equal(
-        pipeline_original.predict(X), pipeline_cargado.predict(X)
-    )
+    np.testing.assert_array_almost_equal(pipeline_original.predict(X), pipeline_cargado.predict(X))

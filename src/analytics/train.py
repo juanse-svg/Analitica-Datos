@@ -5,6 +5,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
 import joblib
 
+
 def entrenar_pipeline_regresion(
     X_train: pd.DataFrame,
     y_train: pd.Series,
@@ -27,15 +28,18 @@ def entrenar_pipeline_regresion(
     Returns:
         Pipeline ya entrenado (fit ya ejecutado), listo para .predict().
     """
-    pipeline = Pipeline([
-        ('imputer', SimpleImputer(strategy='median')),
-        ('scaler', StandardScaler()),
-        ('modelo', RandomForestRegressor(
-            n_estimators=n_estimators,
-            max_depth=max_depth,
-            random_state=random_state
-        ))
-    ])
+    pipeline = Pipeline(
+        [
+            ("imputer", SimpleImputer(strategy="median")),
+            ("scaler", StandardScaler()),
+            (
+                "modelo",
+                RandomForestRegressor(
+                    n_estimators=n_estimators, max_depth=max_depth, random_state=random_state
+                ),
+            ),
+        ]
+    )
     pipeline.fit(X_train, y_train)
     return pipeline
 
@@ -63,16 +67,21 @@ def entrenar_pipeline_clasificacion(
     Returns:
         Pipeline ya entrenado (fit ya ejecutado), con predict_proba disponible.
     """
-    pipeline = Pipeline([
-        ('imputer', SimpleImputer(strategy='median')),
-        ('scaler', StandardScaler()),
-        ('modelo', RandomForestClassifier(
-            n_estimators=n_estimators,
-            max_depth=max_depth,
-            random_state=random_state,
-            class_weight='balanced'
-        ))
-    ])
+    pipeline = Pipeline(
+        [
+            ("imputer", SimpleImputer(strategy="median")),
+            ("scaler", StandardScaler()),
+            (
+                "modelo",
+                RandomForestClassifier(
+                    n_estimators=n_estimators,
+                    max_depth=max_depth,
+                    random_state=random_state,
+                    class_weight="balanced",
+                ),
+            ),
+        ]
+    )
     pipeline.fit(X_train, y_train)
     return pipeline
 
