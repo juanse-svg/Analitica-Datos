@@ -53,26 +53,15 @@ def comparar_con_baseline(y_train, y_eval, y_pred_modelo) -> dict:
     El baseline predice, para TODAS las filas de y_eval, la clase
     mayoritaria observada en y_train (equivalente a
     DummyClassifier(strategy="most_frequent")).
-
-    Args:
-        y_train: target de entrenamiento, usado para determinar la
-                 clase mayoritaria.
-        y_eval: target real del conjunto de evaluación.
-        y_pred_modelo: predicciones del modelo entrenado sobre el
-                       mismo conjunto que y_eval.
-
-    Returns:
-        Dict con claves 'accuracy_baseline', 'accuracy_modelo', 'mejora'
-        (accuracy_modelo - accuracy_baseline).
     """
     clase_mayoritaria = pd.Series(y_train).mode()[0]
     y_pred_baseline = [clase_mayoritaria] * len(y_eval)
-    
+
     accuracy_baseline = float(accuracy_score(y_eval, y_pred_baseline))
     accuracy_modelo = float(accuracy_score(y_eval, y_pred_modelo))
-    
+
     return {
-        'accuracy_baseline': accuracy_baseline,
-        'accuracy_modelo': accuracy_modelo,
-        'mejora': accuracy_modelo - accuracy_baseline
+        "accuracy_baseline": accuracy_baseline,
+        "accuracy_modelo": accuracy_modelo,
+        "mejora": accuracy_modelo - accuracy_baseline,
     }
