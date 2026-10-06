@@ -114,14 +114,16 @@ def construir_dataset_base(tablas: dict[str, pd.DataFrame]) -> pd.DataFrame:
     - + items_agg → left join on order_id (items debe agregarse primero)
 
     Agrega payments antes del join: total_pago (sum) y n_cuotas (max) por order_id.
-    Agrega items antes del join: n_items (count) y ticket_total (sum de price) por
-    order_id.
+    Agrega items antes del join: n_items (count), precio_total (sum de price) y
+    flete_total (sum de freight_value) por order_id.
 
     Args:
         tablas: dict retornado por cargar_olist().
 
     Returns:
         DataFrame con una fila por pedido (99,441 filas si los datos son completos).
+        Incluye las columnas precio_total y flete_total (nombres estándar usados
+        por transform.py, train.py y segment.py en labs posteriores).
     """
     orders = tablas["orders"]
     customers = tablas["customers"]
@@ -136,7 +138,11 @@ def construir_dataset_base(tablas: dict[str, pd.DataFrame]) -> pd.DataFrame:
 
     items_agg = (
         items.groupby("order_id")
-        .agg(n_items=("order_item_id", "count"), ticket_total=("price", "sum"))
+        .agg(
+            n_items=("order_item_id", "count"),
+            precio_total=("price", "sum"),
+            flete_total=("freight_value", "sum"),
+        )
         .reset_index()
     )
 
