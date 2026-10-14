@@ -3,3 +3,7 @@ __pycache__/
 *.pyc
 data/raw/*.csv
 .pytest_cache/
+# Lab 06 — los modelos se regeneran con `uv run python -m analytics.pipeline`.
+# Se versiona solo metricas.json (trazabilidad), no los .joblib.
+models/*.joblib
+logs/
